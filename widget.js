@@ -4,7 +4,7 @@ class leafletMapWidget {
     }
 
     showMap() {
-        var map = L.map('#widgetmap').setView([53.22,-2.73], 13);
+        var map = L.map('widgetmap').setView([53.22,-2.73], 13);
     
         // load a tile layer
         var vMapBox = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
