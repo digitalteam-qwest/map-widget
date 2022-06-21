@@ -29,5 +29,36 @@ class leafletMapWidget {
             zoomOffset: -1,
             accessToken: 'pk.eyJ1IjoiamR1bmNhbGYiLCJhIjoiY2wxMHJxMm55MDFiZDNjbnM3cGV3YzF3dyJ9.JwiikZcJsfBr2ebIytXcxw'
         }).addTo(map);
+
+        var vGrassCutting = null;
+        
+        var vGreenStyle = {
+            "color": "#00ff00"
+            };
+            
+        $.ajax({
+            url: 'https://fs-filestore-eu.s3.eu-west-1.amazonaws.com/qwest/assets/GeoJSONTest/GrassCutting.geojson',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+                vGrassCutting = L.geoJson(result, { style: vGreenStyle });
+
+                var baseLayers = {
+                    "Mapbox": vMapBox
+                };
+                
+                var overlays = {
+                    "Grass Cutting": vGrassCutting
+                };
+                
+                L.control.layers(baseLayers, overlays).addTo(map);
+            },
+            error: function () {
+                console.log("error");
+            }
+        });
     }
 }
