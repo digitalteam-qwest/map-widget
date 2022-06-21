@@ -43,6 +43,7 @@ class leafletMapWidget {
 
 
 
+
 <script type="text/javascript">
     $('input[name="text5"]').replaceWith("<div id='text5map' />");
     
