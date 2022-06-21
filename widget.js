@@ -53,7 +53,8 @@ class leafletMapWidget {
                 var overlays = {
                     "Grass Cutting": vGrassCutting
                 };
-                
+
+                map.addLayer(vGrassCutting);
                 L.control.layers(baseLayers, overlays).addTo(map);
             },
             error: function () {
