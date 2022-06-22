@@ -1,6 +1,10 @@
 class leafletMapWidget {
     constructor(wgs84) {
         this.WGS84 = wgs84;
+
+        debugger;
+
+        vGlobalLeafletMapWidget = this;
     }
 
     showMap() {
@@ -50,7 +54,7 @@ class leafletMapWidget {
                 .bindPopup(function (layer) {
                     var vPopupText = layer.feature.properties['Feature_ID'] + " : Missing schedule data.";
 
-                    result = this.vGrassCuttingSchedule.filter(obj => obj['feature_id'] == layer.feature.properties['Feature_ID']);
+                    result = vGlobalLeafletMapWidget.vGrassCuttingSchedule.filter(obj => obj['feature_id'] == layer.feature.properties['Feature_ID']);
                     let today = new Date();
 
                     $.each(result, function(index, value) {
@@ -92,17 +96,8 @@ class leafletMapWidget {
             type: "GET",
             dataType: "text",
             success: function (result) {
-
-            debugger;
-            this.vGrassCuttingSchedule = csvJSON(result);
-            this.vGrassCuttingSchedule = sortByKey(this.vGrassCuttingSchedule, "feature_id");
-            debugger;
-              
-              
-              
-    
-    
-    
+                this.vGrassCuttingSchedule = csvJSON(result);
+                this.vGrassCuttingSchedule = sortByKey(this.vGrassCuttingSchedule, "feature_id");
             },
             error: function () {
                 console.log("error");
@@ -143,3 +138,6 @@ function sortByKey(array, key) {
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
 }
+
+var vGlobalLeafletMapWidget = null;
+
