@@ -2,8 +2,6 @@ class leafletMapWidget {
     constructor(wgs84) {
         this.WGS84 = wgs84;
         this.vGrassCuttingSchedule = null;
-
-        vGlobalLeafletMapWidget = this;
     }
 
     showMap() {
@@ -57,12 +55,15 @@ class leafletMapWidget {
                     var vPopupText = layer.feature.properties['Feature_ID'] + " : Missing schedule data.";
 
                     result = _this.vGrassCuttingSchedule.filter(obj => obj['feature_id'] == layer.feature.properties['Feature_ID']);
-                    let today = new Date();
+
+                    var today = new Date();
+                    var date = today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate();
+                    var nowDate = Date.parse(today);
 
                     $.each(result, function(index, value) {
                         let vDateCheck = Date.parse(value["date"]);
-                        if (vDateCheck >= today) {
-                            vPopupText = "Next scheduled cutting is on the ";
+                        if (vDateCheck >= nowDate) {
+                            vPopupText = "Next scheduled cutting is on the " + value["date"];
                             return false;
                         }
                     });
@@ -130,7 +131,7 @@ function csvJSON(csv) {
         result.push(obj);
     }
     
-    return result; //JavaScript object
+    return result;
 }
 
 function sortByKey(array, key) {
@@ -142,6 +143,3 @@ function sortByKey(array, key) {
         return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
 }
-
-var vGlobalLeafletMapWidget = null;
-
