@@ -1,8 +1,7 @@
 class leafletMapWidget {
     constructor(wgs84) {
         this.WGS84 = wgs84;
-
-        debugger;
+        this.vGrassCuttingSchedule = null;
 
         vGlobalLeafletMapWidget = this;
     }
@@ -86,8 +85,7 @@ class leafletMapWidget {
     }
 
     loadCSVData() {
-        var vGrassCuttingSchedule = null;
-    
+   
         $.ajax({
             url: 'https://fs-filestore-eu.s3.eu-west-1.amazonaws.com/qwest/assets/GeoJSONTest/GrassCuttingSchedule.csv',
             headers: {
