@@ -94,8 +94,8 @@ class leafletMapWidget {
             success: function (result) {
 
             debugger;
-            this.vGrassCuttingSchedule = this.csvJSON(result);
-            this.vGrassCuttingSchedule = this.sortByKey(this.vGrassCuttingSchedule, "feature_id");
+            this.vGrassCuttingSchedule = csvJSON(result);
+            this.vGrassCuttingSchedule = sortByKey(this.vGrassCuttingSchedule, "feature_id");
             debugger;
               
               
@@ -109,37 +109,37 @@ class leafletMapWidget {
             }
         });
     }
+}
 
-    csvJSON(csv){
-        var lines=csv.split("\r\n");
-      
-        var result = [];
-      
-        var headers=lines[0].split(",");
-      
-        for(var i=1;i<lines.length;i++){
-      
-            var obj = {};
-            var currentline=lines[i].split(",");
-      
-            for(var j=0;j<headers.length;j++){
-                obj[headers[j]] = currentline[j];
-            }
-      
-            result.push(obj);
+function csvJSON(csv) {
+
+    var lines=csv.split("\r\n");
+    
+    var result = [];
+    
+    var headers=lines[0].split(",");
+    
+    for(var i=1;i<lines.length;i++){
+    
+        var obj = {};
+        var currentline=lines[i].split(",");
+    
+        for(var j=0;j<headers.length;j++){
+            obj[headers[j]] = currentline[j];
         }
+    
+        result.push(obj);
+    }
+    
+    return result; //JavaScript object
+}
+
+function sortByKey(array, key) {
+      
+    return array.sort((a, b) => {
+        let x = a[key];
+        let y = b[key];
         
-        return result; //JavaScript object
-      }
-      
-      sortByKey(array, key) {
-      
-        return array.sort((a, b) => {
-          let x = a[key];
-          let y = b[key];
-          
-          return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-        });
-      }
-      
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
 }
