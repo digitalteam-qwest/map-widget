@@ -46,7 +46,7 @@ class leafletMapWidget {
             },
             type: "GET",
             dataType: "json",
-            async: false,
+            async: true,
             success: function (result) {
 
                 vGrassCutting = L.geoJson(result, {
@@ -100,7 +100,7 @@ class leafletMapWidget {
             },
             type: "GET",
             dataType: "text",
-            async: false,
+            async: true,
             success: function (result) {
                 _this.vGrassCuttingSchedule = csvJSON(result);
                 _this.vGrassCuttingSchedule = sortByKey(_this.vGrassCuttingSchedule, "feature_id");
