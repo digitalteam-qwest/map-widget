@@ -48,7 +48,20 @@ class leafletMapWidget {
                     style: vGreenStyle
                 })
                 .bindPopup(function (layer) {
-                    return layer.feature.properties['Feature_ID'];
+                    var vPopupText = layer.feature.properties['Feature_ID'] + " : Missing schedule data.";
+
+                    result = this.vGrassCuttingSchedule.filter(obj => obj['feature_id'] == layer.feature.properties['Feature_ID']);
+                    let today = new Date();
+
+                    $.each(result, function(index, value) {
+                        let vDateCheck = Date.parse(value["date"]);
+                        if (vDateCheck >= today) {
+                            vPopupText = "Next scheduled cutting is on the ";
+                            return false;
+                        }
+                    });
+
+                    return vPopupText;
                 });
 
                 var baseLayers = {
@@ -67,4 +80,67 @@ class leafletMapWidget {
             }
         });
     }
+
+    loadCSVData() {
+        var vGrassCuttingSchedule = null;
+    
+        $.ajax({
+            url: 'https://fs-filestore-eu.s3.eu-west-1.amazonaws.com/qwest/assets/GeoJSONTest/GrassCuttingSchedule.csv',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            type: "GET",
+            dataType: "text",
+            success: function (result) {
+
+                debugger;
+              this.vGrassCuttingSchedule = csvJSON(result);
+              this.vGrassCuttingSchedule = sortByKey(this.vGrassCuttingSchedule, "feature_id");
+              
+              debugger;
+              
+              
+              
+    
+    
+    
+            },
+            error: function () {
+                console.log("error");
+            }
+        });
+    }
+
+    csvJSON(csv){
+        var lines=csv.split("\r\n");
+      
+        var result = [];
+      
+        var headers=lines[0].split(",");
+      
+        for(var i=1;i<lines.length;i++){
+      
+            var obj = {};
+            var currentline=lines[i].split(",");
+      
+            for(var j=0;j<headers.length;j++){
+                obj[headers[j]] = currentline[j];
+            }
+      
+            result.push(obj);
+        }
+        
+        return result; //JavaScript object
+      }
+      
+      sortByKey(array, key) {
+      
+        return array.sort((a, b) => {
+          let x = a[key];
+          let y = b[key];
+          
+          return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        });
+      }
+      
 }
