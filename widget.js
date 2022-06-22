@@ -46,6 +46,7 @@ class leafletMapWidget {
             },
             type: "GET",
             dataType: "json",
+            async: false,
             success: function (result) {
 
                 vGrassCutting = L.geoJson(result, {
