@@ -93,11 +93,10 @@ class leafletMapWidget {
             dataType: "text",
             success: function (result) {
 
-                debugger;
-              this.vGrassCuttingSchedule = csvJSON(result);
-              this.vGrassCuttingSchedule = sortByKey(this.vGrassCuttingSchedule, "feature_id");
-              
-              debugger;
+            debugger;
+            this.vGrassCuttingSchedule = this.csvJSON(result);
+            this.vGrassCuttingSchedule = this.sortByKey(this.vGrassCuttingSchedule, "feature_id");
+            debugger;
               
               
               
