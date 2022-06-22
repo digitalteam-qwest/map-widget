@@ -45,19 +45,11 @@ class leafletMapWidget {
             dataType: "json",
             success: function (result) {
                 vGrassCutting = L.geoJson(result, {
-                    style: vGreenStyle,
-                    onEachFeature: function (f, l) {
-                        debugger;
-                    }
-
-                });
-/*                
-                
-                
+                    style: vGreenStyle
+                })
                 .bindPopup(function (layer) {
-                    return layer.feature.properties.description;
+                    return layer.feature.properties['Feature_ID'];
                 });
-*/                
 
                 var baseLayers = {
                     "Mapbox": vMapBox
