@@ -22,6 +22,8 @@ class leafletMapWidget {
         if (!bSuccess) {
             map = L.map('widgetmap').setView([53.213, -2.902], 13);
         }
+
+        var _this = this;
     
         // load a tile layer
         var vMapBox = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -47,13 +49,14 @@ class leafletMapWidget {
             type: "GET",
             dataType: "json",
             success: function (result) {
+
                 vGrassCutting = L.geoJson(result, {
                     style: vGreenStyle
                 })
                 .bindPopup(function (layer) {
                     var vPopupText = layer.feature.properties['Feature_ID'] + " : Missing schedule data.";
 
-                    result = vGlobalLeafletMapWidget.vGrassCuttingSchedule.filter(obj => obj['feature_id'] == layer.feature.properties['Feature_ID']);
+                    result = _this.vGrassCuttingSchedule.filter(obj => obj['feature_id'] == layer.feature.properties['Feature_ID']);
                     let today = new Date();
 
                     $.each(result, function(index, value) {
@@ -85,7 +88,9 @@ class leafletMapWidget {
     }
 
     loadCSVData() {
-   
+
+        var _this = this;
+
         $.ajax({
             url: 'https://fs-filestore-eu.s3.eu-west-1.amazonaws.com/qwest/assets/GeoJSONTest/GrassCuttingSchedule.csv',
             headers: {
@@ -93,9 +98,10 @@ class leafletMapWidget {
             },
             type: "GET",
             dataType: "text",
+            async: false,
             success: function (result) {
-                this.vGrassCuttingSchedule = csvJSON(result);
-                this.vGrassCuttingSchedule = sortByKey(this.vGrassCuttingSchedule, "feature_id");
+                _this.vGrassCuttingSchedule = csvJSON(result);
+                _this.vGrassCuttingSchedule = sortByKey(_this.vGrassCuttingSchedule, "feature_id");
             },
             error: function () {
                 console.log("error");
