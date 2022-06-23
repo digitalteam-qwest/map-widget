@@ -62,7 +62,14 @@ class leafletMapWidget {
                     var nowDate = Date.parse(today);
 
                     $.each(result, function(index, value) {
-                        let vDateCheck = Date.parse(value["date"]);
+                        var parts = value["date"].split("/");
+                        var dt = new Date(
+                                        parseInt(parts[2], 10),
+                                        parseInt(parts[1], 10) - 1,
+                                        parseInt(parts[0], 10)
+                                    );
+
+                        let vDateCheck = Date.parse(dt);
                         if (vDateCheck >= nowDate) {
                             vPopupText = "Next scheduled cutting is on the " + value["date"];
                             return false;
